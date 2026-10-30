@@ -1,0 +1,32 @@
+[
+  {
+    "record_id": "7b5b78c7-b64c-44f4-bd7f-a4dd92584d45",
+    "bin_id": "BIN-200",
+    "city": "Aurangabad",
+    "location": "Swargate",
+    "bin_type": "Recycling",
+    "fill_level_percent": 91.0,
+    "battery_level_percent": 50.0,
+    "timestamp": "2026-10-30T03:57:12.833864+00:00",
+    "predicted_overflow_alert": true,
+    "predicted_display": "Yes",
+    "prediction_confidence_percent": 62.0,
+    "status": "Full",
+    "actual_overflow_alert": null
+  },
+  {
+    "record_id": "1a0e37c2-637a-4ffa-ab92-d7a67b6838fb",
+    "bin_id": "BIN-311",
+    "city": "Aurangabad",
+    "location": "Pune",
+    "bin_type": "Recycling",
+    "fill_level_percent": 65.0,
+    "battery_level_percent": 90.0,
+    "timestamp": "2026-10-30T04:24:51.926057+00:00",
+    "predicted_overflow_alert": false,
+    "predicted_display": "No",
+    "prediction_confidence_percent": 100.0,
+    "status": "Half Full",
+    "actual_overflow_alert": null
+  }
+]

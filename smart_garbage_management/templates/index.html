@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Garbage Management</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
+            color: #24332c;
+        }
+
+        header { margin-bottom: 24px; }
+
+        h1 { color: #176b45; margin-bottom: 8px; }
+        h2 { margin-top: 0; }
+
+        .muted { color: #68776f; font-size: 14px; }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #e1f4e8;
+            color: #176b45;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin: 22px 0;
+        }
+
+        .card, .section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px #00000008;
+            margin-bottom: 20px;
+        }
+
+        .card-label { color: #68776f; font-size: 14px; }
+        .card-value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #176b45;
+            margin: 12px 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccd7d0;
+            border-radius: 7px;
+            background: white;
+            color: #24332c;
+        }
+
+        button {
+            margin-top: 16px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 7px;
+            background: #176b45;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { background: #105536; }
+
+        .notice {
+            padding: 13px;
+            margin: 12px 0;
+            border-radius: 8px;
+        }
+
+        .success { background: #dcfce7; color: #166534; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .warning { background: #fef3c7; color: #92400e; }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) 220px;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e7ece9;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        th { background: #176b45; color: white; }
+        tbody tr:hover { background: #f0f8f3; }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .full { background: #fee2e2; color: #b91c1c; }
+        .half { background: #ffedd5; color: #9a3412; }
+        .normal { background: #dbeafe; color: #1d4ed8; }
+        .empty { background: #dcfce7; color: #166534; }
+        .correct { color: #15803d; font-weight: bold; }
+        .incorrect { color: #b91c1c; font-weight: bold; }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 35px;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        .bar-bg {
+            height: 12px;
+            background: #e9efeb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 100%;
+            background: #2b9565;
+        }
+
+        footer {
+            text-align: center;
+            color: #68776f;
+            font-size: 12px;
+            margin-top: 28px;
+        }
+
+        @media (max-width: 850px) {
+            .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 12px; }
+            .cards, .form-grid, .toolbar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>Smart Garbage Management</h1>
+    <p class="muted">
+        City-wise bin monitoring and Random Forest overflow prediction.
+    </p>
+    <span class="badge">TEST DATA + NEW BIN PREDICTIONS</span>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="notice {{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endwith %}
+
+<!-- Add a new bin -->
+<section class="section" id="add-bin">
+    <h2>Add New Bin</h2>
+    <p class="muted">
+        Enter the bin's current sensor values. The trained model will predict
+        whether an overflow alert is expected.
+    </p>
+
+    <form action="{{ url_for('add_bin') }}" method="POST">
+        <div class="form-grid">
+            <div>
+                <label for="bin_id">Bin ID *</label>
+                <input id="bin_id" name="bin_id"
+                       placeholder="BIN-121" required>
+            </div>
+
+            <div>
+                <label for="city">City *</label>
+                <input id="city" name="city"
+                       placeholder="Enter city name" required>
+            </div>
+
+            <div>
+                <label for="location">Street / Location</label>
+                <input id="location" name="location"
+                       placeholder="Area or street name">
+            </div>
+
+            <div>
+                <label for="bin_type">Bin Type *</label>
+                <input id="bin_type" name="bin_type"
+                       placeholder="Use a bin type from your dataset"
+                       list="bin-types" required>
+                <datalist id="bin-types">
+                    <option value="General Waste">
+                    <option value="Recycling">
+                    <option value="Organic">
+                    <option value="Plastic">
+                    <option value="Paper">
+                </datalist>
+            </div>
+
+            <div>
+                <label for="fill_level_percent">Fill Level (%) *</label>
+                <input id="fill_level_percent" name="fill_level_percent"
+                       type="number" min="0" max="100" step="0.1"
+                       placeholder="65" required>
+            </div>
+
+            <div>
+                <label for="battery_level_percent">Battery Level (%) *</label>
+                <input id="battery_level_percent" name="battery_level_percent"
+                       type="number" min="0" max="100" step="0.1"
+                       placeholder="90" required>
+            </div>
+        </div>
+
+        <button type="submit">Add Bin & Predict Overflow</button>
+    </form>
+</section>
+
+<!-- Dataset metrics -->
+<div class="cards">
+    <div class="card">
+        <div class="card-label">Held-out Test Records</div>
+        <div class="card-value">{{ total_test_records }}</div>
+        <div class="muted">Evaluation records only</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Critical Test Records</div>
+        <div class="card-value">{{ critical_test_records }}</div>
+        <div class="muted">Fill level at least 80%</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Average Test Fill</div>
+        <div class="card-value">{{ average_fill }}%</div>
+        <div class="muted">Across test records</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Test-set Accuracy</div>
+        <div class="card-value">{{ test_accuracy }}%</div>
+        <div class="muted">Actual vs predicted labels</div>
+    </div>
+</div>
+
+{% if test_error %}
+    <div class="notice warning">{{ test_error }}</div>
+{% endif %}
+
+<!-- Fill status chart -->
+<section class="section">
+    <h2>Test Records by Fill Status</h2>
+    <p class="muted">These counts are calculated from test records only.</p>
+
+    {% set safe_total = total_test_records if total_test_records > 0 else 1 %}
+
+    {% for label, count in [
+        ('Full', full_count),
+        ('Half Full', half_count),
+        ('Normal', normal_count),
+        ('Empty', empty_count)
+    ] %}
+        <div class="bar-row">
+            <span>{{ label }}</span>
+            <div class="bar-bg">
+                <div class="bar"
+                     style="width: {{ count * 100 / safe_total }}%"></div>
+            </div>
+            <strong>{{ count }}</strong>
+        </div>
+    {% endfor %}
+</section>
+
+<!-- City filter applies to both tables -->
+<section class="section">
+    <h2>City-wise Dashboard</h2>
+    <p class="muted">
+        Choose a city to filter both the test records and newly added bins.
+    </p>
+
+    <div class="toolbar">
+        <input id="searchInput" type="text"
+               placeholder="Search bin ID, type or location...">
+
+        <select id="cityFilter">
+            <option value="">All cities</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</section>
+
+<!-- Test records -->
+<section class="section">
+    <h2>Held-out Test Records</h2>
+    <p class="muted">
+        Actual and predicted overflow labels are available for evaluation rows.
+    </p>
+
+    <div class="table-wrap">
+        <table id="testTable">
+            <thead>
+                <tr>
+                    <th>Bin ID</th>
+                    <th>City</th>
+                    <th>Location</th>
+                    <th>Bin Type</th>
+                    <th>Fill</th>
+                    <th>Status</th>
+                    <th>Battery</th>
+                    <th>Actual Overflow</th>
+                    <th>Predicted Overflow</th>
+                    <th>Result</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for bin in test_bins %}
+                {% if bin.status == 'Full' %}
+                    {% set css_status = 'full' %}
+                {% elif bin.status == 'Half Full' %}
+                    {% set css_status = 'half' %}
+                {% elif bin.status == 'Normal' %}
+                    {% set css_status = 'normal' %}
+                {% else %}
+                    {% set css_status = 'empty' %}
+                {% endif %}
+
+                <tr class="filter-row"
+                    data-city="{{ bin.city|lower }}"
+                    data-search="{{ (bin.bin_code ~ ' ' ~ bin.city ~ ' ' ~ bin.location ~ ' ' ~ bin.waste_type)|lower }}">
+                    <td>{{ bin.bin_code }}</td>
+                    <td>{{ bin.city }}</td>
+                    <td>{{ bin.location }}</td>
+                    <td>{{ bin.waste_type }}</td>
+                    <td>{{ bin.fill_level }}%</td>
+                    <td><span class="status {{ css_status }}">{{ bin.status }}</span></td>
+                    <td>{{ bin.battery }}</td>
+                    <td>{{ bin.actual }}</td>
+                    <td>{{ bin.predicted }}</td>
+                    <td class="{{ bin.result_class }}">{{ bin.result }}</td>
+                    <td>{{ bin.timestamp }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="11">No test records available.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="muted">Visible test records: <span id="testCount">{{ test_bins|length }}</span></p>
+</section>
+
+<!-- Newly added bins -->
+<section class="section">
+    <h2>New Bins & Model Predictions</h2>
+    <p class="muted">
+        These bins were added through the form above. Actual overflow is unknown
+        until verified sensor data or a confirmed outcome is available.
+    </p>
+
+    <div class="table-wrap">
+        <table id="newBinsTable">
+            <thead>
+                <tr>
+                    <th>Bin ID</th>
+                    <th>City</th>
+                    <th>Location</th>
+                    <th>Bin Type</th>
+                    <th>Fill</th>
+                    <th>Status</th>
+                    <th>Battery</th>
+                    <th>Predicted Overflow</th>
+                    <th>Model Confidence</th>
+                    <th>Added At (UTC)</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for bin in new_bins %}
+                {% if bin.status == 'Full' %}
+                    {% set css_status = 'full' %}
+                {% elif bin.status == 'Half Full' %}
+                    {% set css_status = 'half' %}
+                {% elif bin.status == 'Normal' %}
+                    {% set css_status = 'normal' %}
+                {% else %}
+                    {% set css_status = 'empty' %}
+                {% endif %}
+
+                <tr class="filter-row"
+                    data-city="{{ bin.city|lower }}"
+                    data-search="{{ (bin.bin_id ~ ' ' ~ bin.city ~ ' ' ~ bin.location ~ ' ' ~ bin.bin_type)|lower }}">
+                    <td>{{ bin.bin_id }}</td>
+                    <td>{{ bin.city }}</td>
+                    <td>{{ bin.location }}</td>
+                    <td>{{ bin.bin_type }}</td>
+                    <td>{{ bin.fill_level_percent }}%</td>
+                    <td><span class="status {{ css_status }}">{{ bin.status }}</span></td>
+                    <td>{{ bin.battery_level_percent }}%</td>
+                    <td><strong>{{ bin.predicted_display }}</strong></td>
+                    <td>
+                        {% if bin.prediction_confidence_percent is not none %}
+                            {{ bin.prediction_confidence_percent }}%
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ bin.timestamp }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="10">No new bins added yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="muted">Visible new bins: <span id="newCount">{{ new_bins|length }}</span></p>
+</section>
+
+<footer>
+    Smart Garbage Management • Random Forest • Test records and new-bin predictions
+</footer>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const cityFilter = document.getElementById("cityFilter");
+
+    function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        const selectedCity = cityFilter.value.trim().toLowerCase();
+
+        const testRows = document.querySelectorAll(
+            "#testTable tbody tr.filter-row"
+        );
+        const newRows = document.querySelectorAll(
+            "#newBinsTable tbody tr.filter-row"
+        );
+
+        function filterTable(rows) {
+            let visible = 0;
+
+            rows.forEach(row => {
+                const text = row.dataset.search || "";
+                const city = row.dataset.city || "";
+
+                const matchesSearch = text.includes(query);
+                const matchesCity = !selectedCity || city === selectedCity;
+                const show = matchesSearch && matchesCity;
+
+                row.style.display = show ? "" : "none";
+                if (show) visible++;
+            });
+
+            return visible;
+        }
+
+        document.getElementById("testCount").textContent =
+            filterTable(testRows);
+        document.getElementById("newCount").textContent =
+            filterTable(newRows);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    cityFilter.addEventListener("change", applyFilters);
+</script>
+</body>
+</html>

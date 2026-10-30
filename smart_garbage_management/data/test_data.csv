@@ -1,0 +1,31 @@
+bin_id,sensor_id,reading_id,timestamp,fill_level_percent,bin_type,location_latitude,location_longitude,address_street,address_city,address_state,address_postal_code,address_country,battery_level_percent,bin_status,overflow_alert,hour,day_of_week,predicted_overflow_alert,prediction_correct
+BIN-028,SNSR-1028,READ-00028,2024-06-05 03:50:22+00:00,15.4,organic,1.3521,103.8198,19 Orchard Rd,Singapore,Singapore,238858,Singapore,68.2,active,False,3,2,False,True
+BIN-211,SNSR-8057,READ-30011,2024-06-01 16:22:00+00:00,36.6,general,40.7128,-74.006,Broadway,New York,NY,10007,USA,57.1,active,False,16,5,False,True
+BIN-144,SNSR-2044,READ-00044,2024-05-21 17:33:55+00:00,68.7,other,35.6762,139.6503,15 Ueno Park,Tokyo,Tokyo,110-0007,Japan,32.0,active,False,17,1,False,True
+BIN-027,SNSR-1027,READ-00027,2024-06-05 02:37:44+00:00,70.7,recycling,25.276987,55.296249,32 Sheikh Zayed Rd,Dubai,Dubai,00000,UAE,39.5,active,False,2,2,False,True
+BIN-133,SNSR-2033,READ-00033,2024-05-21 09:25:11+00:00,69.2,hazardous,13.7563,100.5018,100 Sukhumvit,Bangkok,BK,10110,Thailand,56.8,active,False,9,1,False,True
+BIN-204,SNSR-8027,READ-30004,2024-06-01 09:11:00+00:00,5.6,hazardous,51.1657,10.4515,Alexanderplatz,Berlin,BE,10178,Germany,11.3,out_of_service,False,9,5,False,True
+BIN-038,SNSR-1038,READ-00038,2024-06-05 16:15:54+00:00,24.8,organic,38.7223,-9.1393,10 Praça do Comércio,Lisbon,Lisboa,1100-148,Portugal,57.7,active,False,16,2,False,True
+BIN-004,SNSR-1004,READ-00004,2024-06-03 13:58:06+00:00,8.6,hazardous,52.52,13.405,23 Alexanderplatz,Berlin,BE,10178,Germany,13.4,out_of_service,False,13,0,False,True
+BIN-003,SNSR-1003,READ-00003,2024-06-03 11:10:32+00:00,95.1,organic,35.6895,139.6917,789 Shibuya,Tokyo,Tokyo,150-0002,Japan,17.8,maintenance,True,11,0,True,True
+BIN-125,SNSR-2025,READ-00025,2024-05-20 14:24:34+00:00,59.6,hazardous,37.5665,126.978,23 Jong-ro,Seoul,KR,03159,South Korea,51.2,active,False,14,0,False,True
+BIN-209,SNSR-8051,READ-30009,2024-06-01 14:45:00+00:00,0.0,other,34.0522,-118.2437,Sunset Blvd,Los Angeles,CA,90028,USA,8.2,out_of_service,False,14,5,False,True
+BIN-049,SNSR-1049,READ-00049,2024-06-06 06:14:41+00:00,100.0,hazardous,-75.25,-0.0715,Research Base,Antarctica,Ross,00001,Antarctica,7.9,out_of_service,True,6,3,True,True
+BIN-150,SNSR-2050,READ-00050,2024-05-21 22:00:00+00:00,100.0,hazardous,-75.250973,-0.071389,Antarctic Research Base,McMurdo Station,Ross Island,ANT-01,Antarctica,0.0,out_of_service,True,22,1,True,True
+BIN-048,SNSR-1048,READ-00048,2024-06-06 04:58:56+00:00,79.3,organic,59.9139,10.7522,11 Karl Johans gate,Oslo,Oslo,0154,Norway,37.6,active,False,4,3,False,True
+BIN-113,SNSR-2013,READ-00013,2024-05-19 18:18:20+00:00,17.9,other,-22.9068,-43.1729,85 Copacabana,Rio de Janeiro,RJ,22070-000,Brazil,77.5,active,False,18,6,False,True
+BIN-030,SNSR-1030,READ-00030,2024-06-05 06:19:58+00:00,42.3,other,13.7563,100.5018,45 Sukhumvit Rd,Bangkok,Bangkok,10110,Thailand,53.8,active,False,6,2,False,True
+BIN-131,SNSR-2031,READ-00031,2024-05-21 08:01:25+00:00,98.2,recycling,37.9838,23.7275,12 Syntagma Sq,Athens,AT,10557,Greece,14.1,maintenance,True,8,1,True,True
+BIN-019,SNSR-1019,READ-00019,2024-06-04 15:22:49+00:00,73.0,hazardous,35.2271,-80.8431,77 S Tryon St,Charlotte,NC,28202,USA,38.9,active,False,15,1,False,True
+BIN-207,SNSR-8041,READ-30007,2024-06-01 12:05:00+00:00,47.7,recycling,1.3521,103.8198,Orchard Rd,Singapore,SG,238897,Singapore,82.9,active,False,12,5,False,True
+BIN-129,SNSR-2029,READ-00029,2024-05-20 17:09:11+00:00,25.0,other,-23.5505,-46.6333,55 Av. Paulista,Sao Paulo,SP,01311-000,Brazil,83.3,active,False,17,0,False,True
+BIN-214,SNSR-8073,READ-30014,2024-06-01 19:23:00+00:00,53.2,hazardous,-22.9068,-43.1729,Avenida Atlântica,Rio de Janeiro,RJ,22010-000,Brazil,44.9,active,False,19,5,False,True
+BIN-103,SNSR-2003,READ-00003,2024-05-19 09:35:12+00:00,98.6,organic,48.8566,2.3522,7 Rue de Rivoli,Paris,IDF,75001,France,15.9,maintenance,True,9,6,True,True
+BIN-148,SNSR-2048,READ-00048,2024-05-21 20:16:43+00:00,49.7,hazardous,35.8617,104.1954,10 Zhongshan Rd,Xi'an,SN,710000,China,40.9,active,False,20,1,False,True
+BIN-002,SNSR-1002,READ-00002,2024-06-03 09:21:47+00:00,69.4,recycling,51.5074,-0.1278,456 Piccadilly,London,England,W1J 9HS,UK,61.2,active,False,9,0,False,True
+BIN-036,SNSR-1036,READ-00036,2024-06-05 13:41:09+00:00,97.7,general,60.1699,24.9384,6 Mannerheimintie,Helsinki,Uusimaa,00100,Finland,13.1,maintenance,True,13,2,True,True
+BIN-042,SNSR-1042,READ-00042,2024-06-05 21:14:09+00:00,65.9,recycling,-23.5505,-46.6333,80 Avenida Paulista,Sao Paulo,SP,01310-100,Brazil,36.7,active,False,21,2,False,True
+BIN-117,SNSR-2017,READ-00017,2024-05-20 08:09:00+00:00,85.6,recycling,53.3498,-6.2603,6 O'Connell St,Dublin,D,D01T1W6,Ireland,47.9,active,False,8,0,False,True
+BIN-128,SNSR-2028,READ-00028,2024-05-20 16:23:44+00:00,3.5,recycling,60.1699,24.9384,18 Mannerheimintie,Helsinki,Uusimaa,00100,Finland,10.4,maintenance,False,16,0,False,True
+BIN-220,SNSR-8104,READ-30020,2024-06-02 01:25:00+00:00,100.0,hazardous,-90.0,0.0,,South Pole,Antarctica,00001,Antarctica,7.9,out_of_service,True,1,6,True,True
+BIN-118,SNSR-2018,READ-00018,2024-05-20 08:32:11+00:00,10.1,other,59.3293,18.0686,44 Drottninggatan,Stockholm,AB,11121,Sweden,91.6,active,False,8,0,False,True
